@@ -9,6 +9,7 @@ use tui::widgets::{
     SelectableList, Sparkline, Table, Tabs, Text, Widget,
 };
 use tui::{Frame, Terminal};
+use tui::symbols::bar;
 
 use crate::demo::App;
 
@@ -41,7 +42,7 @@ where
             [
                 Constraint::Length(7),
                 Constraint::Min(7),
-                Constraint::Length(7),
+                Constraint::Length(8),
             ]
             .as_ref(),
         )
@@ -192,6 +193,15 @@ fn draw_text<B>(f: &mut Frame<B>, area: Rect)
 where
     B: Backend,
 {
+    let mut bar_string = String::from("Bars: ");
+    bar_string.push_str(bar::FULL);
+    bar_string.push_str(bar::SEVEN_EIGHTHS);
+    bar_string.push_str(bar::THREE_QUATERS);
+    bar_string.push_str(bar::FIVE_EIGHTHS);
+    bar_string.push_str(bar::HALF);
+    bar_string.push_str(bar::THREE_EIGHTHS);
+    bar_string.push_str(bar::ONE_QUATER);
+    bar_string.push_str(bar::ONE_EIGHTH);
     let text = [
         Text::raw("This is a paragraph with several lines. You can change style your text the way you want.\n\nFox example: "),
         Text::styled("under", Style::default().fg(Color::Red)),
@@ -207,7 +217,8 @@ where
         Text::styled("wrap", Style::default().modifier(Modifier::Invert)),
         Text::raw(" your "),
         Text::styled("text", Style::default().modifier(Modifier::Underline)),
-        Text::raw(".\nOne more thing is that it should display unicode characters: 10€")
+        Text::raw(".\nOne more thing is that it should display unicode characters: 10€\n"),
+        Text::raw(bar_string),
     ];
     Paragraph::new(text.iter())
         .block(
